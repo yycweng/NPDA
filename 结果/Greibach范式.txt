@@ -1,0 +1,11 @@
+S A B C C1 C2 C3 
+a b c 
+S -> a A C1 B C | a C1 B C 
+C1 -> b 
+A -> a A | a | b C2 B | c C C2 C3 | c C2 C3 
+C2 -> c 
+C3 -> a 
+B -> b C2 B | c C C2 C3 | c C2 C3 
+C -> c C | c 
+S
+

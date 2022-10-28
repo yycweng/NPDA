@@ -1,0 +1,6 @@
+S A B
+a b c ε
+S
+S->a S A|b B|ε
+A->c A|c|ε
+B->b B|c A|ε
