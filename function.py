@@ -157,6 +157,23 @@ def delete_epsilon():
     if 'ε' in T:
         del T[T.index('ε')]
 
+    # 删除只能推出空的非终结符
+    useless_V = []
+    copy_P = P.copy()
+    for p in copy_P:
+        if len(p.right) == 0:
+            useless_V.append(p.left)
+            V.remove(p.left)
+            P.remove(p)
+    for p in P:
+        copy_right = p.right.copy()
+        for item in copy_right:
+            may_replace_item = [i for i in item if i not in useless_V]
+            if len(may_replace_item) != len(item):  # 有无用非终结符
+                p.right.remove(item)
+                if may_replace_item not in p.right and len(may_replace_item) != 0:
+                    p.right.append(may_replace_item)
+
     # 处理S->ε
     global S
     if S in V0:
@@ -593,6 +610,8 @@ def NPDA_solver(filename, print_trace=False):
     f = open(filename, "r", encoding='utf-8')
     language = f.readline().strip()
     f.close()
+    if len(language) == 0:  # 读空串
+        language = 'ε'
     empty = 'ε'
     language = empty + language + empty  # 引入开始和结束的空
     status = 'q0'  # 控制器的当前状态
@@ -667,7 +686,7 @@ def NPDA_solver(filename, print_trace=False):
 
 
 if __name__ == "__main__":
-    read_zgwfcss("创建NPDA测试.txt")
+    read_zgwfcss("test.txt")
     print_G()
     toGNF()
     print_G()
@@ -676,4 +695,3 @@ if __name__ == "__main__":
     print_NPDA()
     # print_NPDA_to_file(r"./结果/NPDA.txt")
     NPDA_solver("NPDA识别输入.txt", True)
-
