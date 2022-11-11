@@ -1,4 +1,4 @@
-from data_struct import zgwfcss, NPDA_move, NPDA_move_right
+from data_struct import zgwfcss, NPDA_move
 
 V = []
 T = []
@@ -502,6 +502,7 @@ def toGNF():
     delete_useless()
     delete_left_recursive()
     delete_single()
+    delete_useless()
 
     map = {}  # 产生式和标号的映射
     for index, p in enumerate(P):
